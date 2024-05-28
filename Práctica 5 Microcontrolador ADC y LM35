@@ -1,0 +1,22 @@
+int gPin = 9;
+int lihtPin = A5;
+int lightVal;
+int dt = 100;
+void setup() {
+Serial.begin(9600);
+pinMode(lihtPin, INPUT);
+pinMode(gPin, OUTPUT);
+
+}
+
+void loop() {
+  lightVal = analogRead(lihtPin);
+  Serial.println(lightVal);
+  delay(dt);
+  if(lightVal < 1000){
+    digitalWrite(gPin, 1);
+  }
+   if(lightVal >= 1000){
+    digitalWrite(gPin,0);
+    }
+}
