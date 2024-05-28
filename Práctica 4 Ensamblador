@@ -1,0 +1,205 @@
+// Definiciones de pines para el primer display de 7 segmentos
+const int segmentA = 2;
+const int segmentB = 3;
+const int segmentC = 4;
+const int segmentD = 5;
+const int segmentE = 6;
+const int segmentF = 7;
+const int segmentG = 8;
+
+// Definiciones de pines para el segundo display de 7 segmentos
+const int secondDisplayA = 9;
+const int secondDisplayB = 10;
+const int secondDisplayC = 11;
+const int secondDisplayD = 12;
+const int secondDisplayE = 13;
+const int secondDisplayF = A0;
+const int secondDisplayG = A1;
+
+void setup() {
+  Serial.begin(9600);
+
+  // Configura los pines de los segmentos de los displays como salida
+  pinMode(segmentA, OUTPUT);
+  pinMode(segmentB, OUTPUT);
+  pinMode(segmentC, OUTPUT);
+  pinMode(segmentD, OUTPUT);
+  pinMode(segmentE, OUTPUT);
+  pinMode(segmentF, OUTPUT);
+  pinMode(segmentG, OUTPUT);
+
+  pinMode(secondDisplayA, OUTPUT);
+  pinMode(secondDisplayB, OUTPUT);
+  pinMode(secondDisplayC, OUTPUT);
+  pinMode(secondDisplayD, OUTPUT);
+  pinMode(secondDisplayE, OUTPUT);
+  pinMode(secondDisplayF, OUTPUT);
+  pinMode(secondDisplayG, OUTPUT);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int operand1 = Serial.parseInt();
+    char operation = Serial.read();
+    int operand2 = Serial.parseInt();
+    int operand3 = Serial.parseInt();
+
+    int result = 0;
+
+    switch (operation) {
+      case '+':
+        result = operand1 + operand2+operand3;
+        break;
+      case '-':
+        result = operand1 - operand2-operand3;
+        break;
+      case '*':
+        result = operand1*operand2;
+        break;
+      case '/':
+        if (operand2 != 0) {
+          result = operand1 / operand2;
+        } else {
+          Serial.println("Error: División por cero");
+          return;
+        }
+        break;
+    }
+
+    if (result <= 99) {
+      if (result > 9) {
+        int units = result % 10;
+        int tens = result / 10;
+        displayNumber(units, secondDisplayA, secondDisplayB, secondDisplayC, secondDisplayD, secondDisplayE, secondDisplayF, secondDisplayG);
+        displayNumber(tens, segmentA, segmentB, segmentC, segmentD, segmentE, segmentF, segmentG);
+      } else {
+        displayNumber(result, segmentA, segmentB, segmentC, segmentD, segmentE, segmentF, segmentG);
+      }
+      Serial.println(result);
+    } else {
+      Serial.println("Resultado demasiado grande");
+    }
+
+    delay(9000); // Espera 6 segundos antes de limpiar el display
+    clearDisplay(); // Limpia todos los displays
+  }
+}
+
+// Función para mostrar un número en el display de 7 segmentos dado sus segmentos
+void displayNumber(int number, int segA, int segB, int segC, int segD, int segE, int segF, int segG) {
+  switch(number) {
+    case 0:
+      digitalWrite(segA, HIGH);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, HIGH);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, LOW);
+      break;
+    case 1:
+      digitalWrite(segA, LOW);
+      digitalWrite(segB, LOW);
+      digitalWrite(segC, HIGH);
+      digitalWrite(segD, LOW);
+      digitalWrite(segE, LOW);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, LOW);
+      break;
+    case 2:
+    digitalWrite(segA, HIGH);
+      digitalWrite(segB, LOW);
+      digitalWrite(segC, HIGH);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, LOW);
+      digitalWrite(segG, HIGH);
+      break;
+    case 3:
+    digitalWrite(segA, HIGH);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, LOW);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, LOW);
+      digitalWrite(segG, HIGH);
+      break;
+    case 4:
+    digitalWrite(segA, LOW);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, LOW);
+      digitalWrite(segD, LOW);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, HIGH);
+      break;
+    case 5:
+    digitalWrite(segA, HIGH);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, LOW);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, LOW);
+      break;
+    case 6:
+    digitalWrite(segA, HIGH);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, HIGH);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, LOW);
+      break;
+    case 7:
+    digitalWrite(segA, LOW);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, LOW);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, LOW);
+      digitalWrite(segG, HIGH);
+      break;
+    case 8:
+    digitalWrite(segA, HIGH);
+      digitalWrite(segB, HIGH);
+      digitalWrite(segC, HIGH);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, HIGH);
+      break;
+    case 9:
+    digitalWrite(segA, LOW);
+      digitalWrite(segB, HIGH);
+     
+digitalWrite(segC, LOW);
+      digitalWrite(segD, HIGH);
+      digitalWrite(segE, HIGH);
+      digitalWrite(segF, HIGH);
+      digitalWrite(segG, HIGH);
+      break;
+    default:
+      
+      break;
+  }
+}
+
+// Función para limpiar todos los displays de 7 segmentos
+void clearDisplay() {
+  digitalWrite(segmentA, LOW);
+  digitalWrite(segmentB, LOW);
+  digitalWrite(segmentC, LOW);
+  digitalWrite(segmentD, LOW);
+  digitalWrite(segmentE, LOW);
+  digitalWrite(segmentF, LOW);
+  digitalWrite(segmentG, LOW);
+
+  digitalWrite(secondDisplayA, LOW);
+  digitalWrite(secondDisplayB, LOW);
+  digitalWrite(secondDisplayC, LOW);
+  digitalWrite(secondDisplayD, LOW);
+  digitalWrite(secondDisplayE, LOW);
+  digitalWrite(secondDisplayF, LOW);
+  digitalWrite(secondDisplayG, LOW);
+}
