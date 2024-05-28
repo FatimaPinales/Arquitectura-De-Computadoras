@@ -1,0 +1,43 @@
+void setup() {
+  pinMode(2, INPUT);
+  pinMode(3, INPUT);
+  pinMode(4, INPUT);
+  pinMode(5, INPUT);
+  pinMode(6, INPUT);
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  
+  //SUMA
+  if((digitalRead(2) && digitalRead(3)) && (digitalRead(4) && !digitalRead(5) && !digitalRead(6))){
+  digitalWrite(13, HIGH);
+  }
+  //RESTA
+if((digitalRead(2) && digitalRead(3)) && (!digitalRead(4) && !digitalRead(5) && digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+  //MULTIPLICACION
+  if((digitalRead(2) && digitalRead(3)) && (digitalRead(4) && digitalRead(5) && digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+  //DIVISION
+  if((digitalRead(2) && digitalRead(3)) && (digitalRead(4) && !digitalRead(5) && digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+  //AND
+  if((digitalRead(2) && digitalRead(3)) && (!digitalRead(4) && digitalRead(5) && digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+  //OR
+  if((digitalRead(2) || digitalRead(3)) && (digitalRead(4) && digitalRead(5) && !digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+  //XOR
+  if((digitalRead(2) && digitalRead(3)) && (!digitalRead(4) && digitalRead(5) && !digitalRead(6))) {
+    digitalWrite(13, HIGH);
+  }
+    else{
+  digitalWrite(13, LOW);
+  }
+}
